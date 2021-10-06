@@ -3,6 +3,8 @@ clear all;
 close all;
 
 
+%CHECK HERE
+
 %% In this script, you need to implement three functions as part of the k-means algorithm.
 % These steps will be repeated until the algorithm converges:
 
@@ -80,9 +82,11 @@ cost_iteration = zeros(max_iter, 1);
 
 %% This for-loop enacts the k-means algorithm
 
+[trainsetlabels, centroids, cost_iteration] = kmeans(train, k);
+
 for iter=1:max_iter
     
-      % FILL THIS IN!
+      %update centroid locations/values
     
 end
 

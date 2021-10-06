@@ -64,9 +64,10 @@ imagesc(testimage'); % this command plots an array as an image.  Type 'help imag
 %% This next section of code calls the three functions you are asked to specify
 
 k = 10;
-%10 centroids for 0-9 possible handwritten number values
+%k = 10 centroids for 0-9 possible handwritten number values
 
-max_iter= ; % set the number of iterations of the algorithm
+max_iter= 100;
+% maximum number of iterations of the algorithm (100)
 
 %% The next line initializes the centroids.  Look at the initialize_centroids()
 % function, which is specified further down this file.

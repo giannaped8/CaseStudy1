@@ -1,7 +1,7 @@
 
 clear all;
 close all;
-%Gianna Pedcini
+
 
 %% In this script, you need to implement three functions as part of the k-means algorithm.
 % These steps will be repeated until the algorithm converges:
@@ -63,7 +63,9 @@ imagesc(testimage'); % this command plots an array as an image.  Type 'help imag
 
 %% This next section of code calls the three functions you are asked to specify
 
-k= ; % set k
+k = 10;
+%10 centroids for 0-9 possible handwritten number values
+
 max_iter= ; % set the number of iterations of the algorithm
 
 %% The next line initializes the centroids.  Look at the initialize_centroids()

@@ -35,6 +35,7 @@ end
 %% MAKE A STEM PLOT OF THE OUTLIER FLAG
 figure;
 % FILL IN
+%Classification
 
 %% The following plots the correct and incorrect predictions
 % Make sure you understand how this plot is constructed

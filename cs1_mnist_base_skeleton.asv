@@ -1,6 +1,6 @@
 
-%clear all;
-%close all;
+clear all;
+close all;
 
 
 %CHECK HERE
@@ -82,24 +82,21 @@ cost_iteration = zeros(max_iter, 1);
 
 %% This for-loop enacts the k-means algorithm
 
-centroids = initialize_centroids(train,k);
+kmean = train.length;
+Ci = initialize_centroids(train,k);
 
 
 for iter=1:max_iter
     
-    %cost_iteration = zeros(max_iter, 1);
-    
-    centroids = update_Centroids(train, k);
+    Cf = update_Centroids(train, k);
     
     %update centroid locations/values
     %diff k locations & group assignents w each run
-             
+        
+        
 end
-
-for i = 1:trainsetlabels.size
-    
-    [ind, dis] = assign_vector_to_centroid(train(i,:), k);
-    trainsetlabels(i,:) = ind;
+for i = 1:train.length
+    [index, vec_distance] = assign_vector_to_centroid(data,centroids)
 end
 
 
@@ -157,16 +154,14 @@ function [index, vec_distance] = assign_vector_to_centroid(data,centroids)
 vec_distance = norm(centroids(1,:) - data(1,:));
 index = 1;
 
-    for i=1:centoids.length
-    
-        if norm(centroids(i,:) - data(:,:)) < vec_distance
-        
-            vec_distance = norm(centroids(i,:) - data(i,:));
-            index = i;
-        
-        end
+for i=1:centoids.length
+    if norm(centroids(i,:) - data(:,:)) < vec_distance
+        vec_distance = norm(centroids(i,:) - data(i,:));
+        index = i;
     end
+end
      
+
  
 end
 
@@ -176,17 +171,17 @@ end
 % It returns a new set of centroids based on the current assignment of the
 % training images.
 
-function new_centroids=update_Centroids(data, k)
+function new_centroids=update_Centroids(data,K)
 
-new_centroids = zeros(data(k,:));
+% FILL THIS IN
 
+new_centroids = centroids.size;
 
 for i = 1:k
     count = 0;
-    
-    for j = 1 : data.size
+    for j = 1:data.length
         
-         [index, vec_distance] = assign_vector_to_centroid(data(:,j), centroids);
+         [index, vec_distance] = assign_vector_to_centroid(data(:,j),centroids);
          
          if index == i
              new_centroids(:,i) = new_centroids(:,i) + data(:,j);
@@ -198,6 +193,7 @@ for i = 1:k
     new_centroids(:,i) = new_centroids(:,i)./count;
     
 end
+
 
 
 end

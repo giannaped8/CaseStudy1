@@ -32,10 +32,84 @@ end
 % otherwise, outliers(i) should be 0
 % FILL IN
 
+
+%average cost for each cluster
+%if dist is larger than avg, its an outlier
+
+
+avgCost = [k];
+
+for i = 1:k
+    for j = 1:outliers.length
+        
+        [index, vec_distance] = assign_vector_to_centroid(test(j, :), centroids);
+        if index==i
+            sum = sum + vec_distance;
+            num = num + 1;
+        end
+            
+    end
+    
+    avgCost(i) = sum / num;
+end
+    
+
+
+for i = 1:k
+    for j = 1:outliers.length
+        
+        [index, vec_distance] = assign_vector_to_centroid(test(j, :), centroids);
+        
+        if index==i
+            if vec_distance > avgCost(i)
+                outliers(j) = 1;
+                
+            end
+        end
+            
+    end
+    
+  
+end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 %% MAKE A STEM PLOT OF THE OUTLIER FLAG
 figure;
 % FILL IN
 %Classification
+
+
+
+%figure;
+%stem(outliers);
+hold on;
+xlabel('vector number');
+ylabel('one if outlier, else zero');
+title('vector outliers flag');
+
+
+
+
+
+
+
+
+
+
+
+
 
 %% The following plots the correct and incorrect predictions
 % Make sure you understand how this plot is constructed

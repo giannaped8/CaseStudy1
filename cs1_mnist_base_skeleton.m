@@ -65,10 +65,10 @@ imagesc(testimage'); % this command plots an array as an image.  Type 'help imag
 
 %% This next section of code calls the three functions you are asked to specify
 
-k = 10;
+k = 11;
 %k = 10 centroids for 0-9 possible handwritten number values
 
-max_iter= 100;
+max_iter= 10;
 % maximum number of iterations of the algorithm (100)
 
 %% The next line initializes the centroids.  Look at the initialize_centroids()
@@ -82,32 +82,56 @@ cost_iteration = zeros(max_iter, 1);
 
 %% This for-loop enacts the k-means algorithm
 
-centroids = initialize_centroids(train,k);
+%centroids = array (row = k number, column = column location)
+%correctlabels = k number for set of 200 testing images
+%train set labels = k number for 1500 training images
+%cost_iteration = vector to cluster point distance sum
+%train = 1500 rows = 1500 images, 785 columns = 28x28 image pixel values
 
 
-for iter=1:max_iter
+
+for iter = 1:max_iter
     
-    %cost_iteration = zeros(max_iter, 1);
+    sum = 0;
+    
+    
     
     centroids = update_Centroids(train, k);
     
-    %update centroid locations/values
-    %diff k locations & group assignents w each run
-             
+        
+          for j = 1 : length(train)
+              
+            [index, vec_distance] = assign_vector_to_centroid(train(j, :), centroids);
+            train(j, 785) = index;
+            sum = sum + vec_distance;
+            
+         
+          end
+         
+      cost_iteration(iter,1) =  sum ./ length(train);   
+        
 end
+               
 
-for i = 1:trainsetlabels.size
-    
-    [ind, dis] = assign_vector_to_centroid(train(i,:), k);
-    trainsetlabels(i,:) = ind;
-end
+%trainsetlabels = data(:, end);
 
 
 %% This section of code plots the k-means cost as a function of the number
 % of iterations
 
 figure;
-% FILL THIS IN!
+
+for iter = 1:max_iter
+    stem(iter, cost_iteration(iter,:));
+    hold on;
+    
+end
+
+
+ xlabel('centroids');
+ ylabel('# of iterations');
+ title('K means cost');
+
 
 
 %% This next section of code will make a plot of all of the centroids
@@ -152,23 +176,29 @@ end
 
 function [index, vec_distance] = assign_vector_to_centroid(data,centroids)
 
-% FILL THIS IN
 
-vec_distance = norm(centroids(1,:) - data(1,:));
-index = 1;
+dist = norm(data - centroids(1,:));
+idx = 1;
+k = 11;
 
-    for i=1:centoids.length
     
-        if norm(centroids(i,:) - data(:,:)) < vec_distance
+    for i = 1 : k
         
-            vec_distance = norm(centroids(i,:) - data(i,:));
-            index = i;
+            if norm(data - centroids(i, :)) < dist
         
-        end
+                dist = norm(data - centroids(i, :));
+                idx = i;
+        
+            end
     end
-     
- 
+    
+    
+   index = idx;
+   vec_distance = dist;
+   
+   
 end
+
 
 
 %% Function to compute new centroids using the mean of the vectors currently assigned to the centroid.
@@ -176,28 +206,37 @@ end
 % It returns a new set of centroids based on the current assignment of the
 % training images.
 
+
 function new_centroids=update_Centroids(data, k)
 
-new_centroids = zeros(data(k,:));
 
 
-for i = 1:k
-    count = 0;
+Ncentroids = zeros(k, 784);
+
+
+
+    for i = 1:k
     
-    for j = 1 : data.size
+        count = 0;
+    
+        for j = 1 : length(data)
         
-         [index, vec_distance] = assign_vector_to_centroid(data(:,j), centroids);
+            
          
-         if index == i
-             new_centroids(:,i) = new_centroids(:,i) + data(:,j);
+            if data(j, 785) == i
+                
+             Ncentroids(i,:) = Ncentroids(i,:) + data(j, 784);
              count = count + 1;
-         end
-              
+             
+            end
+                     
+        end
         
+        Ncentroids(i,:) = Ncentroids(i,:)./count; 
+       
     end
-    new_centroids(:,i) = new_centroids(:,i)./count;
-    
-end
 
+
+new_centroids = Ncentroids;
 
 end
